@@ -1,0 +1,1 @@
+export const CLAVE_TOKEN = "autofix_token";
