@@ -12,8 +12,7 @@ export default function LoginPage() {
   const { login, estaAutenticado } = useAuth();
   const navigate = useNavigate();
 
-  // Si ya hay sesión activa, lo mandamos directo al panel en vez de
-  // mostrar el formulario.
+  
   if (estaAutenticado) {
     navigate("/", { replace: true });
     return null;

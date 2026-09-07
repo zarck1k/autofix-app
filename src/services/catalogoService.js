@@ -1,11 +1,11 @@
-
+// src/services/catalogosService.js
 import axiosClient from "./axiosClient";
 
 const catalogoService = (endpoint) => ({
 
     //función para obtener todos los registros - para un DropDown o dt
-    getAll: async () => {
-        const response = await axiosClient.get(endpoint);
+    getAll: async (params = {}) => {
+        const response = await axiosClient.get(endpoint, { params });
         return response.data;
     },
     //obtener un registro por id
@@ -28,6 +28,7 @@ const catalogoService = (endpoint) => ({
         const response = await axiosClient.delete(`${endpoint}/${id}`);
         return response.data;
     },
+
 
 });
 

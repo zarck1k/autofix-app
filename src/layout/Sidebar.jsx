@@ -13,12 +13,13 @@ const opcionesMenu = [
       { etiqueta: "Repuestos y Servicios", ruta: "/catalogos/repuestos-servicios" },
     ],
   },
+  { etiqueta: "Vehículos", icono: "pi pi-car", ruta: "/vehiculos" },
   { etiqueta: "Clientes", icono: "pi pi-users", ruta: "/clientes" },
   { etiqueta: "Gestión de Órdenes", icono: "pi pi-clipboard", ruta: "/ordenes-trabajo" },
   { etiqueta: "Reportes", icono: "pi pi-chart-bar", ruta: "/reportes" },
   // rolesPermitidos: si se define, la opción solo aparece para esos roles -
   // mismo criterio que ya aplicamos con @PreAuthorize del lado del backend.
-  { etiqueta: "Gestión de Usuarios", icono: "pi pi-user-edit", ruta: "/usuarios", rolesPermitidos: ["ADMIN"] },
+  { etiqueta: "Gestión de Usuarios", icono: "pi pi-user-edit", ruta: "/Gestion-Usuarios", rolesPermitidos: ["ADMIN"] },
 ];
 
 export default function Sidebar ({ isOpen }) {

@@ -4,6 +4,14 @@ import LoginPage from "../Auth/Login";
 import RutaProtegida from "../Auth/RutaProtegida";
 import Marcas from "../components/catalogos/Marcas";
 import Clientes from "../components/Clientes";
+import Vehiculos from "../components/vehiculos/Vehiculos";
+import RepuestosServicios from "../components/catalogos/RepuestoServicios";
+import OrdenesTrabajo from "../components/ordenes-trabajo/OrdenesTrabajo";
+import Reporte from "../components/reports/Reportes";
+import Dashboard from "../components/Dashboard";
+import Modelos from "../components/catalogos/Modelos";
+
+
 
 export default function Router() {
   return (
@@ -18,13 +26,21 @@ export default function Router() {
             </RutaProtegida>
           }
         >
-          <Route path="/" element={<div>Inicio</div>} />
+          <Route path="/catalogos/modelos" element={<Modelos />} />
           <Route path="/catalogos/marcas" element={<Marcas />} />
-          <Route path="/catalogos/modelos" element={<div>Modelos</div>} />
-          <Route path="/catalogos/repuestos-servicios" element={<div>Repuestos y Servicios</div>} />
           <Route path="/clientes" element={<Clientes />} />
-          <Route path="/ordenes-trabajo" element={<div>Gestión de Órdenes</div>} />
-          <Route path="/reportes" element={<div>Reportes</div>} />
+          <Route path="/ordenes-trabajo" element={<OrdenesTrabajo />}></Route>
+       
+
+          <Route
+            path="/ordenes-trabajo"
+            element={<div>Gestión de Órdenes</div>}
+          />
+          <Route path="/vehiculos" element={<Vehiculos />} />
+          <Route
+            path="/catalogos/repuestos-servicios"
+            element={<RepuestosServicios />}
+          />
 
           <Route
             path="/usuarios"
@@ -34,6 +50,30 @@ export default function Router() {
               </RutaProtegida>
             }
           />
+          <Route
+            path="/reportes"
+            element={
+              <RutaProtegida rolesPermisos={["ADMIN", "RECEPCIONISTA"]}>
+                <Reporte />
+              </RutaProtegida>
+            }
+          />
+
+      
+
+            <Route
+            path="/"
+            element={
+              <RutaProtegida
+                rolesPermisos={["ADMIN", "RECEPCIONISTA", "MECANICO"]}
+              >
+                <Dashboard />
+              </RutaProtegida>
+            }
+          />
+
+        
+
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
