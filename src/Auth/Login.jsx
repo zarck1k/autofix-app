@@ -12,7 +12,6 @@ export default function LoginPage() {
   const { login, estaAutenticado } = useAuth();
   const navigate = useNavigate();
 
-  
   if (estaAutenticado) {
     navigate("/", { replace: true });
     return null;
@@ -24,10 +23,28 @@ export default function LoginPage() {
 
     try {
       const respuesta = await axiosClient.post("/auth/login", { username, password });
+      console.log("Respuesta login:", respuesta.data);
+
+      // ✅ Guardar token (esto ya lo tienes)
       login(respuesta.data.auth.token);
-      navigate("/", { replace: true });
+
+      // ✅ Si debe cambiar contraseña, redirigir a /cambiar-password
+      if (respuesta.data.auth.debeCambiarPassword) {
+        Swal.fire({
+          icon: "warning",
+          title: "Cambio de contraseña requerido",
+          text: "Debes cambiar tu contraseña temporal antes de continuar.",
+          confirmButtonText: "Cambiar ahora",
+          allowOutsideClick: false,
+        }).then(() => {
+          navigate("/cambiar-password", { replace: true });
+        });
+      } else {
+        navigate("/", { replace: true });
+      }
+
     } catch (error) {
-        console.log(error)
+      console.log(error);
       const mensaje = error.response?.data?.message || "No se pudo iniciar sesión";
       Swal.fire({ icon: "error", title: "Error", text: mensaje });
     } finally {

@@ -10,8 +10,8 @@ import OrdenesTrabajo from "../components/ordenes-trabajo/OrdenesTrabajo";
 import Reporte from "../components/reports/Reportes";
 import Dashboard from "../components/Dashboard";
 import Modelos from "../components/catalogos/Modelos";
-
-
+import Empleados from "../components/Empleados";
+import CambiarPassword from "../Auth/CambiarContrasena";
 
 export default function Router() {
   return (
@@ -30,7 +30,7 @@ export default function Router() {
           <Route path="/catalogos/marcas" element={<Marcas />} />
           <Route path="/clientes" element={<Clientes />} />
           <Route path="/ordenes-trabajo" element={<OrdenesTrabajo />}></Route>
-       
+          <Route path="/cambiar-password" element={<CambiarPassword />} />
 
           <Route
             path="/ordenes-trabajo"
@@ -59,9 +59,16 @@ export default function Router() {
             }
           />
 
-      
+          <Route
+            path="/empleados"
+            element={
+              <RutaProtegida rolesPermisos={["ADMIN"]}>
+                <Empleados />
+              </RutaProtegida>
+            }
+          />
 
-            <Route
+          <Route
             path="/"
             element={
               <RutaProtegida
@@ -71,9 +78,6 @@ export default function Router() {
               </RutaProtegida>
             }
           />
-
-        
-
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
