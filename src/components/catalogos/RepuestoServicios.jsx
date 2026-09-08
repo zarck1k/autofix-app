@@ -18,7 +18,7 @@ import Swal from "sweetalert2";
 import { repuestoServicioService } from "../../services/RespuestoServicioService";
 import { mostrarErrorApi, mostrarExitoApi } from "../../utils/alertasApi";
 import { construirUrlImagen } from "../../utils/constantes";
-import { useAuth } from "../../auth/AuthContext";
+import { useAuth } from "../../Auth/AuthContext";
 
 const emptyItem = { id: null, nombre: "", descripcion: "", precio: null, stock: null, tipo: null, foto: null };
 const NOMBRE_MAX = 100;

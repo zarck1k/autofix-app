@@ -12,9 +12,9 @@ import { classNames } from "primereact/utils";
 import { Toast } from "primereact/toast";
 import Swal from "sweetalert2";
 
-import { empleadoService } from "../services/empleadoService"; // ✅ CAMBIADO
+import { empleadoService } from "../services/empleadoService";
 import { mostrarErrorApi, mostrarExitoApi } from "../utils/alertasApi";
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "../Auth/AuthContext";
 
 const emptyEmpleado = {
     id: null,
@@ -52,8 +52,15 @@ export default function Empleados() {
     const fetchEmpleados = async () => {
         setLoading(true);
         try {
-            const data = await empleadoService.listarConUsuario(); // ✅ CAMBIADO
-            setEmpleados(data);
+            const data = await empleadoService.listarConUsuario();
+            
+            // CORRECCIÓN 1: Convertimos 'role' (backend) a 'rol' (frontend) y corregimos el error de escritura
+            const dataCorregida = data.map(emp => ({
+                ...emp,
+                rol: (emp.role || emp.rol) === "RECEPCIONIST" ? "RECEPCIONISTA" : (emp.role || emp.rol)
+            }));
+
+            setEmpleados(dataCorregida);
         } catch (error) {
             mostrarErrorApi(toast, error, "No se pudieron obtener los empleados");
         } finally {
@@ -75,7 +82,8 @@ export default function Empleados() {
             nombre: rowData.nombre || "",
             email: rowData.email || "",
             telefono: rowData.telefono || "",
-            rol: rowData.rol || ""
+            // CORRECCIÓN 2: Usamos 'role' o 'rol' dependiendo de lo que venga del backend
+            rol: (rowData.role || rowData.rol) === "RECEPCIONIST" ? "RECEPCIONISTA" : (rowData.role || rowData.rol)
         });
         setSubmitted(false);
         setDialog(true);
@@ -121,7 +129,8 @@ export default function Empleados() {
                 nombre: empleado.nombre.trim(),
                 email: empleado.email.trim().toLowerCase(),
                 telefono: empleado.telefono.trim(),
-                rol: empleado.rol
+                // CORRECCIÓN 3: Enviamos 'role' (como espera el backend) en lugar de 'rol'
+                role: empleado.rol
             };
 
             if (empleado.password) {
@@ -130,9 +139,9 @@ export default function Empleados() {
 
             let respuesta;
             if (empleado.id) {
-                respuesta = await empleadoService.editarConUsuario(empleado.id, datosLimpios); // ✅ CAMBIADO
+                respuesta = await empleadoService.editarConUsuario(empleado.id, datosLimpios);
             } else {
-                respuesta = await empleadoService.registrarConUsuario(datosLimpios); // ✅ CAMBIADO
+                respuesta = await empleadoService.registrarConUsuario(datosLimpios);
             }
 
             mostrarExitoApi(toast, respuesta.message || "Empleado guardado correctamente");
@@ -165,7 +174,7 @@ export default function Empleados() {
 
     const deleteEmpleado = async (id) => {
         try {
-            await empleadoService.cambiarEstado(id, false); // ✅ CAMBIADO
+            await empleadoService.cambiarEstado(id, false);
             mostrarExitoApi(toast, "Empleado desactivado correctamente");
             fetchEmpleados();
         } catch (error) {
@@ -193,7 +202,7 @@ export default function Empleados() {
 
     const resetearPassword = async (id) => {
         try {
-            const respuesta = await empleadoService.resetearPassword(id); // ✅ CAMBIADO
+            const respuesta = await empleadoService.resetearPassword(id);
             mostrarExitoApi(toast, `Contraseña restablecida. Temporal: ${respuesta.passwordTemporal}`);
             fetchEmpleados();
         } catch (error) {
@@ -203,7 +212,7 @@ export default function Empleados() {
 
     const toggleEstado = async (rowData) => {
         try {
-            await empleadoService.cambiarEstado(rowData.id, !rowData.activo); // ✅ CAMBIADO
+            await empleadoService.cambiarEstado(rowData.id, !rowData.activo);
             mostrarExitoApi(toast, `Empleado ${rowData.activo ? 'desactivado' : 'activado'} correctamente`);
             fetchEmpleados();
         } catch (error) {

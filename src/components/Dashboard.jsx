@@ -17,7 +17,7 @@ import { ordenTrabajoService } from "../services/ordenTrabajoService";
 import { vehiculoService } from "../services/vehiculoService";
 import { clienteService } from "../services/clienteService";
 import { repuestoServicioService } from "../services/RespuestoServicioService";
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "../Auth/AuthContext";
 
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Filler);

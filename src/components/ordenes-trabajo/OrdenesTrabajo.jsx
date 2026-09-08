@@ -22,7 +22,7 @@ import { vehiculoService } from "../../services/vehiculoService";
 import { empleadoService } from "../../services/empleadoService";
 import { repuestoServicioService } from "../../services/RespuestoServicioService";
 import { mostrarErrorApi, mostrarExitoApi } from "../../utils/alertasApi";
-import { useAuth } from "../../auth/AuthContext";
+import { useAuth } from "../../Auth/AuthContext";
 
 const OBSERVACIONES_MAX = 250;
 
