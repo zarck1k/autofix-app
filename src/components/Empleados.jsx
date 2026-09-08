@@ -14,7 +14,7 @@ import Swal from "sweetalert2";
 
 import { empleadoService } from "../services/empleadoService";
 import { mostrarErrorApi, mostrarExitoApi } from "../utils/alertasApi";
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "../Auth/AuthContext";
 
 const emptyEmpleado = {
     id: null,
