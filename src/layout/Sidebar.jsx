@@ -19,7 +19,7 @@ const opcionesMenu = [
   { etiqueta: "Reportes", icono: "pi pi-chart-bar", ruta: "/reportes" },
   // rolesPermitidos: si se define, la opción solo aparece para esos roles -
   // mismo criterio que ya aplicamos con @PreAuthorize del lado del backend.
-  { etiqueta: "Gestión de Usuarios", icono: "pi pi-user-edit", ruta: "/Gestion-Usuarios", rolesPermitidos: ["ADMIN"] },
+  { etiqueta: "Gestión de Usuarios", icono: "pi pi-user-edit", ruta: "/empleado", rolesPermitidos: ["ADMIN"] },
 ];
 
 export default function Sidebar ({ isOpen }) {

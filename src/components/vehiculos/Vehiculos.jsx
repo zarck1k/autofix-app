@@ -18,7 +18,7 @@ import { vehiculoService } from "../../services/vehiculoService";
 import { modeloService } from "../../services/modeloService";
 import { clienteService } from "../../services/clienteService";
 import { mostrarErrorApi, mostrarExitoApi } from "../../utils/alertasApi";
-import { useAuth } from "../../auth/AuthContext";
+import { useAuth } from "../../Auth/AuthContext";
 
 const emptyVehiculo = { id: null, placa: "", anio: null, caracteristicas: "", modeloId: null, clienteId: null };
 const PLACA_MIN = 4;

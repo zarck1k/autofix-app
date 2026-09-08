@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 import { modeloService } from "../../services/modeloService";
 import { marcaService } from "../../services/marcaService";
 import { mostrarErrorApi, mostrarExitoApi } from "../../utils/alertasApi";
-import { useAuth } from "../../auth/AuthContext";
+import { useAuth } from "../../Auth/AuthContext";
 
 const emptyModelo = { 
     id: null, 

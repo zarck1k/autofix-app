@@ -10,6 +10,8 @@ import OrdenesTrabajo from "../components/ordenes-trabajo/OrdenesTrabajo";
 import Reporte from "../components/reports/Reportes";
 import Dashboard from "../components/Dashboard";
 import Modelos from "../components/catalogos/Modelos";
+import Empleados from "../components/Empleados";
+import CambiarClave from "../Auth/CambiarPassword";
 
 
 
@@ -18,6 +20,7 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/cambiar-password" element={<CambiarClave />} />
 
         <Route
           element={
@@ -68,6 +71,17 @@ export default function Router() {
                 rolesPermisos={["ADMIN", "RECEPCIONISTA", "MECANICO"]}
               >
                 <Dashboard />
+              </RutaProtegida>
+            }
+          />
+
+          <Route
+            path="/empleado"
+            element={
+              <RutaProtegida
+                rolesPermisos={["ADMIN"]}
+              >
+                <Empleados />
               </RutaProtegida>
             }
           />
