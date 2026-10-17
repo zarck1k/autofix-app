@@ -32,13 +32,7 @@ export default function Router() {
           <Route path="/catalogos/modelos" element={<Modelos />} />
           <Route path="/catalogos/marcas" element={<Marcas />} />
           <Route path="/clientes" element={<Clientes />} />
-          <Route path="/ordenes-trabajo" element={<OrdenesTrabajo />}></Route>
-          <Route path="/cambiar-password" element={<CambiarPassword />} />
-
-          <Route
-            path="/ordenes-trabajo"
-            element={<div>Gestión de Órdenes</div>}
-          />
+          <Route path="/ordenes-trabajo" element={<OrdenesTrabajo />} />
           <Route path="/vehiculos" element={<Vehiculos />} />
           <Route
             path="/catalogos/repuestos-servicios"
