@@ -7,12 +7,10 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [usuario, setUsuario] = useState(null);
-
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     restaurarSesion();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const restaurarSesion = () => {
@@ -25,8 +23,6 @@ export function AuthProvider({ children }) {
 
     try {
       const payload = jwtDecode(tokenGuardado);
-
-      // "exp" en el JWT viene en segundos desde epoch; Date.now() da milisegundos.
       const yaExpiro = payload.exp * 1000 < Date.now();
       if (yaExpiro) {
         localStorage.removeItem(CLAVE_TOKEN);
@@ -37,8 +33,6 @@ export function AuthProvider({ children }) {
       setToken(tokenGuardado);
       setUsuario(mapearPayload(payload));
     } catch {
-      // Token corrupto o ilegible - se descarta en vez de dejar la app en
-      // un estado a medias donde "hay token" pero "no hay usuario".
       localStorage.removeItem(CLAVE_TOKEN);
     } finally {
       setCargando(false);
@@ -76,19 +70,17 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-// Único punto donde se traduce el payload del token a la forma que usa
-// el resto de la app - si el backend agrega/renombra un claim, solo se
-// ajusta aquí.
 const mapearPayload = (payload) => {
   return {
     username: payload.sub,
     nombre: payload.nombre,
-    tipo: payload.tipo,           // "EMPLEADO" o "CLIENTE"
+    tipo: payload.tipo,
     rol: payload.rol,
     empleadoId: payload.empleadoId,
     clienteId: payload.clienteId,
+    debeCambiarPassword: payload.debeCambiarPassword,
   };
-}
+};
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -96,4 +88,4 @@ export const useAuth = () => {
     throw new Error("useAuth debe usarse dentro de un AuthProvider");
   }
   return context;
-}
+};

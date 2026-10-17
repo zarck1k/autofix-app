@@ -54,10 +54,12 @@ export default function Empleados() {
         try {
             const data = await empleadoService.listarConUsuario();
             
-            // CORRECCIÓN 1: Convertimos 'role' (backend) a 'rol' (frontend) y corregimos el error de escritura
+         
             const dataCorregida = data.map(emp => ({
                 ...emp,
-                rol: (emp.role || emp.rol) === "RECEPCIONIST" ? "RECEPCIONISTA" : (emp.role || emp.rol)
+                rol: emp.role || emp.rol || "",
+                rol: emp.role === "RECEPCIONIST" ? "RECEPCIONISTA" : (emp.role || emp.rol || ""),
+                activo: emp.activo === true || emp.activo === 1 || emp.activo === "true"
             }));
 
             setEmpleados(dataCorregida);
@@ -82,8 +84,7 @@ export default function Empleados() {
             nombre: rowData.nombre || "",
             email: rowData.email || "",
             telefono: rowData.telefono || "",
-            // CORRECCIÓN 2: Usamos 'role' o 'rol' dependiendo de lo que venga del backend
-            rol: (rowData.role || rowData.rol) === "RECEPCIONIST" ? "RECEPCIONISTA" : (rowData.role || rowData.rol)
+            rol: rowData.rol || ""
         });
         setSubmitted(false);
         setDialog(true);
@@ -129,8 +130,7 @@ export default function Empleados() {
                 nombre: empleado.nombre.trim(),
                 email: empleado.email.trim().toLowerCase(),
                 telefono: empleado.telefono.trim(),
-                // CORRECCIÓN 3: Enviamos 'role' (como espera el backend) en lugar de 'rol'
-                role: empleado.rol
+                role: empleado.rol // ✅ Enviamos "role" como espera el backend
             };
 
             if (empleado.password) {
@@ -142,6 +142,26 @@ export default function Empleados() {
                 respuesta = await empleadoService.editarConUsuario(empleado.id, datosLimpios);
             } else {
                 respuesta = await empleadoService.registrarConUsuario(datosLimpios);
+                
+                // ✅ Mostrar contraseña temporal
+                if (respuesta.auth?.passwordTemporal) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Empleado registrado",
+                        html: `
+                            <p>Contraseña temporal: <b style="color: #2563eb; font-size: 18px;">${respuesta.auth.passwordTemporal}</b></p>
+                            <p style="font-size: 12px; color: #6b7280;">El empleado debe cambiar su contraseña al iniciar sesión.</p>
+                        `,
+                        confirmButtonText: "Copiar",
+                        showCancelButton: true,
+                        cancelButtonText: "Cerrar"
+                    }).then((resultado) => {
+                        if (resultado.isConfirmed) {
+                            navigator.clipboard.writeText(respuesta.auth.passwordTemporal);
+                            mostrarExitoApi(toast, "Contraseña copiada al portapapeles");
+                        }
+                    });
+                }
             }
 
             mostrarExitoApi(toast, respuesta.message || "Empleado guardado correctamente");
@@ -232,7 +252,7 @@ export default function Empleados() {
     const templateActivo = (rowData) => {
         return (
             <span className={rowData.activo ? "text-green-600 font-bold" : "text-red-600 font-bold"}>
-                {rowData.activo ? "Sí" : "No"}
+                {rowData.activo ? "Activo" : "Inactivo"}
             </span>
         );
     };

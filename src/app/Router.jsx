@@ -11,13 +11,16 @@ import Reporte from "../components/reports/Reportes";
 import Dashboard from "../components/Dashboard";
 import Modelos from "../components/catalogos/Modelos";
 import Empleados from "../components/Empleados";
-import CambiarPassword from "../Auth/CambiarContrasena";
+import CambiarClave from "../Auth/CambiarPassword";
+
+
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/cambiar-password" element={<CambiarClave />} />
 
         <Route
           element={
@@ -78,6 +81,23 @@ export default function Router() {
               </RutaProtegida>
             }
           />
+<<<<<<< HEAD
+=======
+
+          <Route
+            path="/empleado"
+            element={
+              <RutaProtegida
+                rolesPermisos={["ADMIN"]}
+              >
+                <Empleados />
+              </RutaProtegida>
+            }
+          />
+
+        
+
+>>>>>>> 6652674029b07fc0da2e4360e53167e893e7c08b
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
