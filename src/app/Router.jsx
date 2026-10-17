@@ -81,8 +81,6 @@ export default function Router() {
               </RutaProtegida>
             }
           />
-<<<<<<< HEAD
-=======
 
           <Route
             path="/empleado"
@@ -97,7 +95,6 @@ export default function Router() {
 
         
 
->>>>>>> 6652674029b07fc0da2e4360e53167e893e7c08b
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
